@@ -2,6 +2,7 @@
 uploads/*.xls
 uploads/*.pdf
 uploads/extracted/*.pdf
+uploads/*
 tmp
 log
 vendor
