@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 gem "sinatra", :require => "sinatra/base"
-gem "roo"
+gem "roo-xls"
 gem "mail"
 gem "haml"
 gem "sinatra-contrib"
