@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'haml'
-require 'roo'
-require 'zip/zipfilesystem'
+require 'roo-xls'
 require 'fileutils'
 require 'mail'
 require 'json'
@@ -51,7 +50,7 @@ post '/upload-bills' do
 end
 
 post '/mobile-bills' do
-  content_type :json  
+  content_type :json
   response_hash = {}
   params['zipfiles'].each do |file_attr|
     store_file(file_attr)
@@ -65,20 +64,25 @@ get '/send-mail', :provides => 'text/event-stream' do
   p settings.data
   p '*'*80
   Mail.defaults do
-    delivery_method :smtp, {:address => "sifymisc01.thoughtworks.com", :port => 25, :enable_starttls_auto => true}
+    delivery_method :smtp, {:domain => "thoughtworks.com",
+      :address => "smtp.sendgrid.net", :port => 587,
+      :user_name => "SEND_GRID_USERNAME",
+      :password => "SEND_GRID_PASSWORD",
+      :authentication => :plain,
+      :enable_starttls_auto => true, :domain => 'thoughtworks.com'}
   end
 
   stream :keep_open do |out|
-    Parallel.each(settings.data, :in_threads => 8) do |data|    
+    Parallel.each(settings.data, :in_threads => 8) do |data|
       mail = Mail.new do
         to data[8]
-        from settings.from_address
-        subject 'Your Airtel Bill - ' + settings.name
         html_part do
           content_type 'text/html; charset=UTF-8'
         end
         add_file :filename => "#{data[2]}.pdf", :content => File.read(File.join("./uploads/extracted/", "#{data[2]}.pdf")) unless data[9] == false
       end
+      mail.from = settings.from_address
+      mail.subject = 'Your Airtel Bill - ' + settings.name
       mail.html_part.body = haml :'mail-template', :layout => false, :locals => {:headers => settings.header, :data => data, :name => settings.name}
       mail.deliver!
       out << "data:{\"index\":\"#{(data[8].split('@').first).split('.').first}\"}\n\n"
@@ -90,7 +94,7 @@ helpers do
 	def store_file(file_attributes)
   	File.open('./uploads/' + file_attributes[:filename], "w") do |f|
   		f.write(file_attributes[:tempfile].read)
-  	end		
+  	end
 	end
 
   def rename_files(office)
@@ -98,12 +102,10 @@ helpers do
       original_file_name = /\/[^\/]+$/.match(file) [0]
       if(office != '4') #not pune.
         match = original_file_name.match(/\d{10}(?!.*\d{10})/) #last 10 digits
-        FileUtils.cp(file, './uploads/extracted/' + match[0] + ".pdf") unless match == nil        
+        FileUtils.cp(file, './uploads/extracted/' + match[0] + ".pdf") unless match == nil
       else #pune
-        FileUtils.cp(file, './uploads/extracted/' + original_file_name.split("-").first)        
+        FileUtils.cp(file, './uploads/extracted/' + original_file_name.split("-").first)
       end
     end
   end
 end
-
-
