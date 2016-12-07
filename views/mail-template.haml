@@ -6,15 +6,15 @@
 %br
 %br
 %table{:border => 1}
-	%thead
-	%tr
-		- headers[0..7].each do |h|
-			%th{:bgcolor => "#cccccc", :width => "5%"}= h
-	%tbody		
-		%td{:align => "center", :valign => "middle", :height => "20%"}= data[0]
-		%td{:align => "center", :valign => "middle", :height => "20%"}= emp_name		
-		- data[2..7].each do |d|
-			%td{:align => "center", :valign => "middle", :height => "20%"}= d
+  %thead
+  %tr
+    - headers[0..7].each do |h|
+      %th{:bgcolor => "#cccccc", :width => "5%"}= h
+  %tbody
+    %td{:align => "center", :valign => "middle", :height => "20%"}= data[0]
+    %td{:align => "center", :valign => "middle", :height => "20%"}= emp_name
+    - data[2..7].each do |d|
+      %td{:align => "center", :valign => "middle", :height => "20%"}= d
 %br
 %br
 %br
