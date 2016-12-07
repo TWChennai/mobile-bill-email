@@ -29,7 +29,7 @@ $(document).ready(function() {
         errors += "Enter Sender's 'From' email address\n";
       }
 
-      if($('#office option:selected').val() == "0") {
+      if($('#office').find('option:selected').val() == "0") {
         errors += "Choose Office\n";
       }
 

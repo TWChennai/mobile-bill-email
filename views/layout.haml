@@ -1,62 +1,62 @@
 !!!
 %html
-    %head
-        %title Mobile Bills
-        %script{src: "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
-        %script{src: "js/jquery.ui.widget.js"}
-        %script{src: "js/jquery.iframe-transport.js"}
-        %script{src: "js/jquery.fileupload.js"}
-        %script{src: "js/publish.js"}
-        %link{:href => "css/960.css", :rel => 'stylesheet', :type => 'text/css'}
-        :css
+  %head
+    %title Mobile Bills
+    %script{src: "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"}
+    %script{src: "js/jquery.ui.widget.js"}
+    %script{src: "js/jquery.iframe-transport.js"}
+    %script{src: "js/jquery.fileupload.js"}
+    %script{src: "js/publish.js"}
+    %link{:href => "css/960.css", :rel => 'stylesheet', :type => 'text/css'}
+    :css
             .bar {
                 height: 18px;
                 background: green;
             }
-    %body{:style => "font-size:9pt;"}
-        .container_12
-            .grid_12{:align => 'center'}
-                %h1 Send Mail
-            .grid_5{:align => 'right'}
-                Mobile Bills:
-            .grid_3
-                %input{:type => "file", :id => "fileupload", :name => "zipfiles[]", :multiple => "multiple", :'data-url' => "/mobile-bills"}
-            .clear
-            .grid_4 &nbsp;            
-            .grid_5
-                #progress
-                    .bar{:style => "width: 0%;color: white;font-size:9pt;"}              
-            .clear
-            %form{:action => "/upload-bills", :id => 'uploadForm', :method => "post", :enctype => "multipart/form-data"}
-                .grid_5{:align => 'right'}
-                    Excel file:
-                .grid_3
-                    %input{:type => "file", :name => "xlsfile"}
-                .clear
-                %br
-                .grid_5{:align => 'right'}
-                    From Address:
-                .grid_3
-                    %input{:type => 'text', :name => 'from_address'}
-                .grid_4
-                    %i (e.g. premkumar.s@thoughtworks.com)
-                .clear
-                %br
-                .grid_5 &nbsp;
-                .grid_3
-                    %select{:id => 'office'}
-                        %option{:value => 0} Select Office
-                        %option{:value => 1} Chennai
-                        %option{:value => 2} Bangalore
-                        %option{:value => 3} Gurgaon                    
-                        %option{:value => 4} Pune
-                        %option{:value => 5} Hyderabad
-                .clear
-                %br
-                .grid_12{:align => 'center'}
-                    %input{:type => "submit", :id => 'submitButton', :value => 'Enter'}
-            =yield
-            :javascript
+  %body{:style => "font-size:9pt;"}
+    .container_12
+      .grid_12{:align => 'center'}
+        %h1 Send Mail
+      .grid_5{:align => 'right'}
+        Mobile Bills:
+      .grid_3
+        %input{:type => "file", :id => "fileupload", :name => "zipfiles[]", :multiple => "multiple", :'data-url' => "/mobile-bills"}
+      .clear
+      .grid_4 &nbsp;
+      .grid_5
+        #progress
+          .bar{:style => "width: 0%;color: white;font-size:9pt;"}
+      .clear
+      %form{:action => "/upload-bills", :id => 'uploadForm', :method => "post", :enctype => "multipart/form-data"}
+        .grid_5{:align => 'right'}
+          Excel file:
+        .grid_3
+          %input{:type => "file", :name => "xlsfile"}
+        .clear
+        %br
+        .grid_5{:align => 'right'}
+          From Address:
+        .grid_3
+          %input{:type => 'text', :name => 'from_address'}
+        .grid_4
+          %i (e.g. premkumar.s@thoughtworks.com)
+        .clear
+        %br
+        .grid_5 &nbsp;
+        .grid_3
+          %select{:id => 'office'}
+            %option{:value => 0} Select Office
+            %option{:value => 1} Chennai
+            %option{:value => 2} Bangalore
+            %option{:value => 3} Gurgaon
+            %option{:value => 4} Pune
+            %option{:value => 5} Hyderabad
+        .clear
+        %br
+        .grid_12{:align => 'center'}
+          %input{:type => "submit", :id => 'submitButton', :value => 'Enter'}
+      =yield
+      :javascript
                 $(function () {
                     $('#fileupload').fileupload({
                         dataType: 'json',

@@ -654,5 +654,5 @@ body {
 
 
 .done > div {
-  text-decoration: line-through;
+  color: greenyellow;
 }

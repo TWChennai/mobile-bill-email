@@ -1,17 +1,17 @@
 .grid_12{:align => 'center'}
-	%h1
-		= "For month: #{name}, From Address: #{from}"
+  %h1
+    = "For month: #{name}, From Address: #{from}"
 .clear
 .grid_12{:align => 'center'}
-	%form{:action => "/send-mail", :method => "post"}
-		%input{:type => "button", :class => "sendButton", :value => "Send Mail"}
+  %form{:action => "/send-mail", :method => "post"}
+    %input{:type => "button", :class => "sendButton", :value => "Send Mail"}
 
 - index = 0
 - data.each do |d|
-	- id = (d[8].split('@').first).split('.').first
-	.pending{:style => "color:#{d[9] ? 'black' : 'red'};font-size:9pt", :id => id}
-		.grid_1{:style => "text-align:right;font-weight:bold"}= index += 1
-		.grid_5= d[1]
-		.grid_2= d[2]
-		.grid_4= d[8]
-	.clear
+  - id = (d[8].split('@').first).split('.').first
+  .pending{:style => "color:#{d[9] ? 'black' : 'red'};font-size:9pt", :id => id}
+    .grid_1{:style => "text-align:right;font-weight:bold"}= index += 1
+    .grid_5= d[1]
+    .grid_2= d[2]
+    .grid_4= d[8]
+  .clear
