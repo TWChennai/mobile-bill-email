@@ -34,14 +34,6 @@
           %input{:type => "file", :name => "xlsfile"}
         .clear
         %br
-        .grid_5{:align => 'right'}
-          From Address:
-        .grid_3
-          %input{:type => 'text', :name => 'from_address'}
-        .grid_4
-          %i (e.g. premkumar.s@thoughtworks.com)
-        .clear
-        %br
         .grid_5 &nbsp;
         .grid_3
           %select{:id => 'office'}
@@ -53,6 +45,25 @@
             %option{:value => 5} Hyderabad
         .clear
         %br
+        %hr
+        .grid_5{:align => 'right'}
+          From Address:
+        .grid_3
+          %input{:type => 'text', :name => 'from_address'}
+        .grid_4
+          %i (Enter the TW email account from which mail is to be send)
+        %br
+        %br
+        .clear
+        .grid_5{:align => 'right'}
+          Password
+        .grid_3
+          %input{:type => 'password', :name => 'password'}
+        .grid_4
+          %i (Enter the password. We do not store the passwords any where.)
+        .clear
+        %br
+        .grid_5 &nbsp;
         .grid_12{:align => 'center'}
           %input{:type => "submit", :id => 'submitButton', :value => 'Enter'}
       =yield

@@ -22,15 +22,12 @@ class MobileMailer < Sinatra::Base
     set :name, ''
     set :server, 'puma'
     set :from_address, nil
-    Mail.defaults do
-      delivery_method :smtp, {
-          :domain => "thoughtworks.com",
-          :address => "smtp.gmail.com", :port => 587,
-          :user_name => "",
-          :password => "",
-          :authentication => :plain,
-          :enable_starttls_auto => true}
-    end
+    set :username, nil
+    set :password, nil
+    set :smtp, Mail::SMTP.new(address: "smtp.gmail.com", port: 587)
+    smtp.settings[:authentication] = :plain
+    smtp.settings[:enable_starttls_auto] = :true
+    smtp.settings[:domain] = "thoughtworks.com"
   end
 
   post '/upload-bills' do
@@ -41,7 +38,9 @@ class MobileMailer < Sinatra::Base
     settings.data = []
     settings.header = sheet.row(1)
     settings.from_address = params['from_address']
+    settings.password = params['password']
     settings.name = excel.sheets.last
+
     2.upto(sheet.last_row) do |row_num|
       begin
         row = sheet.row(row_num)
@@ -79,12 +78,14 @@ class MobileMailer < Sinatra::Base
           add_file :filename => "#{data[2]}.pdf",
                    :content => File.read(File.join("./uploads/extracted/", "#{data[2]}.pdf")) unless !data[9]
         end
-        mail.from = settings.from_address
+        settings.smtp.settings[:user_name] = settings.from_address
+        settings.smtp.settings[:password] = settings.password
+        mail.from = "'Bill Mailer' <#{settings.from_address}>"
         mail.to = data[8]
         mail.subject = 'Your Airtel Bill - ' + settings.name
         mail.html_part.body = haml :'mail-template', :layout => false,
                                    :locals => {:headers => settings.header, :data => data, :name => settings.name}
-        mail.deliver!
+        settings.smtp.deliver! mail
         out << "data:{\"index\":\"#{(data[8].split('@').first).split('.').first}\"}\n\n"
       end
     end
