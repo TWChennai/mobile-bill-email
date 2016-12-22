@@ -80,7 +80,7 @@ class MobileMailer < Sinatra::Base
         end
         settings.smtp.settings[:user_name] = settings.from_address
         settings.smtp.settings[:password] = settings.password
-        mail.from = "'Bill Mailer' <#{settings.from_address}>"
+        mail.from = settings.from_address
         mail.to = data[8]
         mail.subject = 'Your Airtel Bill - ' + settings.name
         mail.html_part.body = haml :'mail-template', :layout => false,
